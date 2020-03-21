@@ -6,9 +6,7 @@ EXPOSE 80 21
 
 #    && basicPkgs='vim htop tree dnsutils zip sed cvs subversion make gcc g++ autoconf automake curl' \
 
-# change the /etc/apt/source.list
-RUN 
-
+RUN wget 
 
 RUN apt-get update \
     && apt-get -y dist-upgrade \

@@ -3,9 +3,10 @@
 set -e
 #set -x
 
-. ../libShell/echo_color.lib
-. ../libShell/sysEnv.lib
+. ./libShell/echo_color.lib
+. ./libShell/sysEnv.lib
 
+Dockerfiles=./Dockerfiles
 
 build_img_func()
 {
@@ -13,13 +14,13 @@ build_img_func()
     TARGET_VER=$2
     ARCH=$(arch)
 
-    cp ./Dockerfile_${TARGET}${TARGET_VER}.img ./Dockerfile_${TARGET}${TARGET_VER}.img.${ARCH} 
+    cp $Dockerfiles/Dockerfile_${TARGET}${TARGET_VER}.img $Dockerfiles/Dockerfile_${TARGET}${TARGET_VER}.img.${ARCH} 
 
     if [ ${TARGET} == basic ]; then
-        sed -i "s/ubt${TARGET_VER}/ubt${TARGET_VER}_${ARCH}/" ./Dockerfile_${TARGET}${TARGET_VER}.img.${ARCH}
-#        docker build --rm -t rayruan/yocto_${ARCH}:${TARGET}${TARGET_VER} -f ./Dockerfile_${TARGET}${TARGET_VER}.img.${ARCH} .
+        sed -i "s/ubt${TARGET_VER}/ubt${TARGET_VER}_${ARCH}/" $Dockerfiles/Dockerfile_${TARGET}${TARGET_VER}.img.${ARCH}
+#        docker build --rm -t rayruan/yocto_${ARCH}:${TARGET}${TARGET_VER} -f $Dockerfiles/Dockerfile_${TARGET}${TARGET_VER}.img.${ARCH} .
     elif [ ${TARGET} == build ]; then
-        sed -i "s/yocto/yocto_${ARCH}/" ./Dockerfile_${TARGET}${TARGET_VER}.img.${ARCH}
+        sed -i "s/yocto/yocto_${ARCH}/" $Dockerfiles/Dockerfile_${TARGET}${TARGET_VER}.img.${ARCH}
     else
             echoR "Unsupport target:${TARGET} for image building."
             exit 1
@@ -30,7 +31,7 @@ build_img_func()
         --build-arg "gid=$(id -u)" \
         --build-arg "user=$(id -un)" \
         --build-arg	"uid=$(id -g)" \
-        -f ./Dockerfile_${TARGET}${TARGET_VER}.img.${ARCH} .
+        -f $Dockerfiles/Dockerfile_${TARGET}${TARGET_VER}.img.${ARCH} .
 }
 
 build_target_func()
