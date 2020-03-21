@@ -1,0 +1,33 @@
+FROM rayruan/yocto:basic1404
+
+
+ARG user
+ARG uid
+ARG group
+ARG gid
+
+#RUN apt-get install -y libncurses5-dev libncursesw5-dev libssl-dev bison libbison-dev bc lzop openjdk-8-jdk zip 
+RUN apt-get update \
+        && apt-get upgrade -y \
+        && apt-get install -y realpath
+
+RUN groupadd -r "$group" -g "$gid" \
+    && useradd -r -m -u "$uid" -g "$gid" "$user" \
+    && usermod -aG $group root \
+    && git config --global user.name "ubuntu" \
+    && git config --global user.email "ubuntu@gmail.com"
+
+RUN mkdir -p /home/"$user"/bin \
+        && curl http://commondatastorage.googleapis.com/git-repo-downloads/repo > /home/"$user"/bin/repo \
+        && chmod a+x /home/"$user"/bin/repo \
+        && echo "PATH=/home/$user/bin:$PATH" >> /home/$user/.bashrc
+
+
+#COPY ./.vim /home/ray/
+#COPY ./.vimrc /home/ray/
+#COPY ./.vimrc.local /home/ray/
+
+
+#USER $user
+
+

@@ -1,0 +1,14 @@
+FROM rayruan/ubt1804_x86_64:basic
+
+EXPOSE 80 21
+
+
+RUN apt-get update \
+    && apt-get -y dist-upgrade \
+    && apt-get -y upgrade \
+    && dependPkgs='gawk wget git-core diffstat unzip texinfo gcc-multilib build-essential chrpath socat libsdl1.2-dev xterm tmux python-minimal python2.7 cpio python-dev python3-dev' \
+    && apt-get -y install $dependPkgs
+
+#USER $user
+
+

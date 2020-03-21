@@ -1,0 +1,15 @@
+FROM rayruan/ubt1404:basic
+
+EXPOSE 80 21
+
+
+RUN apt-get update \
+    && apt-get -y dist-upgrade \
+    && apt-get -y upgrade \
+    && dependPkgs='gawk wget git-core diffstat unzip texinfo gcc-multilib build-essential chrpath socat libsdl1.2-dev xterm tmux python-minimal python2.7 cpio python-dev python3-dev' \
+    && buildPkgs='libncurses5-dev libncursesw5-dev libssl-dev bison libbison-dev bc lzop openjdk-7-jdk zip gawk wget git-core diffstat unzip texinfo gcc-multilib build-essential chrpath socat libsdl1.2-dev libsdl1.2-dev xterm sed cvs subversion coreutils texi2html docbook-utils python-pysqlite2 help2man make gcc g++ desktop-file-utils libgl1-mesa-dev libglu1-mesa-dev mercurial autoconf automake groff curl lzop asciidoc u-boot-tools' \
+   && apt-get -y install $dependPkgs $buildPkgs 
+
+#USER $user
+
+
